@@ -41,12 +41,12 @@ final class FluxRepeatPredicate<T> extends FluxSource<T, T> {
 	@Override
 	public void subscribe(Subscriber<? super T> s) {
 
-		RepeatPredicateSubscriber<T> parent = new RepeatPredicateSubscriber<>(source, s, predicate);
+		RepeatPredicateSubscriber<T> subscriberWrapper = new RepeatPredicateSubscriber<>(source, s, predicate);
 
-		s.onSubscribe(parent);
+		s.onSubscribe(subscriberWrapper);
 
-		if (!parent.isCancelled()) {
-			parent.resubscribe();
+		if (!subscriberWrapper.isCancelled()) {
+			subscriberWrapper.resubscribe();
 		}
 	}
 
